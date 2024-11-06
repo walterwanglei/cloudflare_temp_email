@@ -57,8 +57,9 @@ export const sendMailToVerifyAddress = async (
         data: content
     });
     const { EmailMessage } = await import('cloudflare:email');
+		console.log('msg',msg,msg.asRaw());
     const message = new EmailMessage(address, to_mail, msg.asRaw());
-		console.log('message',JSON.stringify(message));
+		console.log('message',message);
     const res = await c.env.SEND_MAIL.send(message);
 		console.log('res',JSON.stringify(res));
 }
