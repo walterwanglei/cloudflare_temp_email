@@ -193,9 +193,9 @@ export const sendMail = async (
 }
 
 api.post('/api/send_mail', async (c) => {
-		console.log('/api/send_mail',JSON.stringify(c));
     const { address } = c.get("jwtPayload")
     const reqJson = await c.req.json();
+	  console.log('/api/send_mail',JSON.stringify(reqJson));
     try {
         await sendMail(c, address, reqJson);
     } catch (e) {
@@ -206,7 +206,6 @@ api.post('/api/send_mail', async (c) => {
 })
 
 api.post('/external/api/send_mail', async (c) => {
-		console.log('/external/api/send_mail',JSON.stringify(c));
     const { token } = await c.req.json();
     try {
         const { address } = await Jwt.verify(token, c.env.JWT_SECRET, "HS256");
@@ -214,6 +213,7 @@ api.post('/external/api/send_mail', async (c) => {
             return c.text("No address", 400)
         }
         const reqJson = await c.req.json();
+				console.log('/external/api/send_mail',JSON.stringify(reqJson));
         await sendMail(c, address as string, reqJson);
         return c.json({ status: "ok" })
     } catch (e) {
